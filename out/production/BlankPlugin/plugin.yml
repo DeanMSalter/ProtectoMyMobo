@@ -1,0 +1,49 @@
+name: ProtectoMyMobo # the plugins name as it should appear in the plugin list /pl
+version: 1.0 # the plugin's version
+author: Deano3663
+main: McEssence.ProtectoMyMobo.Main
+api-version: 1.18
+commands:
+  ProtectoMyMobo:
+    description: ProtectoMyMobo
+    usage: /ProtectoMyMobo
+    permission: ProtectoMyMobo
+  ProtectoMyMobo trust:
+    description: trust a player
+    usage: /ProtectoMyMobo trust (playerName)
+    permission: ProtectoMyMobo.trust
+  ProtectoMyMobo untrust:
+    description: untrust a player
+    usage: /ProtectoMyMobo untrust (playerName)
+    permission: ProtectoMyMobo.untrust
+  ProtectoMyMobo trustlist:
+    description: list of trusted players
+    usage: /ProtectoMyMobo trustlist
+    permission: ProtectoMyMobo.trustlist
+  ProtectoMyMobo reload:
+    description: trust a player
+    usage: /ProtectoMyMobo reload
+    permission: ProtectoMyMobo.trust
+permissions:
+  ProtectoMyMobo.player.*:
+    description: Gives access to all ProtectoMyMobo permissions
+    children:
+      ProtectoMyMobo.bypass: true
+      ProtectoMyMobo.protect: true
+      ProtectoMyMobo.trust: true
+  ProtectoMyMobo.admin.*:
+    description: Gives access to all ProtectoMyMobo admin permissions
+    children:
+      ProtectoMyMobo.admin.reload: true
+  ProtectoMyMobo.bypass:
+    description: Allows you to break other players protected blocks
+    default: op
+  ProtectoMyMobo.protect:
+    description: Allows you to protect blocks
+    default: op
+  ProtectoMyMobo.trust:
+    description: Allows you to trust a player
+    default: op
+  ProtectoMyMobo.admin.reload:
+    description: Allows you to reload ProtectoMyMobo configs
+    default: op
