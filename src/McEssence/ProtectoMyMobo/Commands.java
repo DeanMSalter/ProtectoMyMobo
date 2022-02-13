@@ -26,21 +26,29 @@ public class Commands implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
-        if (args == null || args[0] == null) {
+        if (args == null || args.length == 0) {
             return false;
         }
-        switch (args[0].toUpperCase()) {
+        switch(args[0].toUpperCase()) {
             case "RELOAD":
-                reload(commandSender, command, label, args);
+                if (hasPermission(commandSender, "ProtectoMyMobo.admin.reload", true)) {
+                    reload(commandSender, command, label, args);
+                }
                 break;
             case "TRUST":
-                trust(commandSender, command, label, args);
+                if (hasPermission(commandSender, "ProtectoMyMobo.player.trust", false)) {
+                    trust(commandSender, command, label, args);
+                }
                 break;
             case "UNTRUST":
-                unTrust(commandSender, command, label, args);
+                if (hasPermission(commandSender, "ProtectoMyMobo.player.untrust", false)) {
+                    unTrust(commandSender, command, label, args);
+                }
                 break;
             case "TRUSTLIST":
-                trustList(commandSender, command, label, args);
+                if (hasPermission(commandSender, "ProtectoMyMobo.player.trustlist", false)) {
+                    trustList(commandSender, command, label, args);
+                }
                 break;
             default:
                 break;
@@ -185,6 +193,21 @@ public class Commands implements CommandExecutor {
 
     private Boolean checkPlayerNameSupplied(String[] args) {
         return args != null && args[1] != null;
+    }
+    private Boolean hasPermission(CommandSender commandSender, String permission, boolean allowConsole) {
+        if (!(commandSender instanceof Player) && !allowConsole) {
+            commandSender.sendMessage("This command can not be run from the console.");
+            return false;
+        }else if(!(commandSender instanceof Player)) {
+            return true;
+        }
+        Player player = (Player) commandSender;
+        if (player.hasPermission(permission)) {
+            return true;
+        }else {
+            commandSender.sendMessage("You do not have permission.");
+        }
+        return false;
     }
 }
 

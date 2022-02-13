@@ -11,39 +11,47 @@ commands:
   ProtectoMyMobo trust:
     description: trust a player
     usage: /ProtectoMyMobo trust (playerName)
-    permission: ProtectoMyMobo.trust
+    permission: ProtectoMyMobo.player.trust
   ProtectoMyMobo untrust:
     description: untrust a player
     usage: /ProtectoMyMobo untrust (playerName)
-    permission: ProtectoMyMobo.untrust
+    permission: ProtectoMyMobo.player.untrust
   ProtectoMyMobo trustlist:
     description: list of trusted players
     usage: /ProtectoMyMobo trustlist
-    permission: ProtectoMyMobo.trustlist
+    permission: ProtectoMyMobo.player.trustlist
   ProtectoMyMobo reload:
-    description: trust a player
+    description: reload plugin
     usage: /ProtectoMyMobo reload
-    permission: ProtectoMyMobo.trust
+    permission: ProtectoMyMobo.admin.reload
 permissions:
   ProtectoMyMobo.player.*:
     description: Gives access to all ProtectoMyMobo permissions
     children:
-      ProtectoMyMobo.bypass: true
-      ProtectoMyMobo.protect: true
-      ProtectoMyMobo.trust: true
+      ProtectoMyMobo.player.bypass: true
+      ProtectoMyMobo.player.protect: true
+      ProtectoMyMobo.player.trust: true
+      ProtectoMyMobo.player.untrust: true
+      ProtectoMyMobo.player.trustlist: true
   ProtectoMyMobo.admin.*:
     description: Gives access to all ProtectoMyMobo admin permissions
     children:
       ProtectoMyMobo.admin.reload: true
-  ProtectoMyMobo.bypass:
+  ProtectoMyMobo.player.bypass:
     description: Allows you to break other players protected blocks
     default: op
-  ProtectoMyMobo.protect:
+  ProtectoMyMobo.player.protect:
     description: Allows you to protect blocks
     default: op
-  ProtectoMyMobo.trust:
+  ProtectoMyMobo.player.trust:
     description: Allows you to trust a player
     default: op
+  ProtectoMyMobo.player.untrust:
+    description: Allows you to untrust a player
+    default: op
+  ProtectoMyMobo.player.trustlist:
+      description: Allows you to see trusted players
+      default: op
   ProtectoMyMobo.admin.reload:
     description: Allows you to reload ProtectoMyMobo configs
     default: op
