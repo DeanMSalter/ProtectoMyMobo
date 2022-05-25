@@ -24,6 +24,10 @@ commands:
     description: reload plugin
     usage: /ProtectoMyMobo reload
     permission: ProtectoMyMobo.admin.reload
+  ProtectoMyMobo trustlistother:
+    description: view a players trustlist
+    usage: /ProtectoMyMobo trustlistother
+    permission: ProtectoMyMobo.admin.trustlistother
 permissions:
   ProtectoMyMobo.player.*:
     description: Gives access to all ProtectoMyMobo permissions
@@ -37,6 +41,7 @@ permissions:
     description: Gives access to all ProtectoMyMobo admin permissions
     children:
       ProtectoMyMobo.admin.reload: true
+      ProtectoMyMobo.admin.trustlistother: true
   ProtectoMyMobo.player.bypass:
     description: Allows you to break other players protected blocks
     default: op
@@ -54,4 +59,7 @@ permissions:
       default: op
   ProtectoMyMobo.admin.reload:
     description: Allows you to reload ProtectoMyMobo configs
+    default: op
+  ProtectoMyMobo.admin.trustlistother:
+    description: Allows you to view other peoples trustlist
     default: op

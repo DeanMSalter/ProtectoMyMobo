@@ -25,6 +25,9 @@ public class Config{
     public String getCanNotDamage(){
         return main.getConfig().getString("messages.canNotDamage");
     }
+    public String getCanNotDamageVillager(){
+        return main.getConfig().getString("messages.canNotDamageVillager");
+    }
 
     public int getProtectionDelay(){
         return main.getConfig().getInt("protectionDelay");

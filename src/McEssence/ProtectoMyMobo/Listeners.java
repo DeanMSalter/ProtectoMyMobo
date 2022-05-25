@@ -6,6 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,7 +16,10 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.VillagerAcquireTradeEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -49,11 +53,31 @@ public class Listeners implements Listener {
     public void onEntityDamage(EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player) {
             Player player = (Player) event.getDamager();
-            if (!IsAllowed(event.getEntity(), player)) {
-                event.setCancelled(true);
-                player.sendMessage(config.getCanNotDamage());
+            if (event.getEntity().getType() == EntityType.VILLAGER) {
+                if(!isOwnerOfMob(event.getEntity(), player)) {
+                    event.setCancelled(true);
+                    player.sendMessage(config.getCanNotDamageVillager());
+                }
+            } else {
+                if (!IsAllowed(event.getEntity(), player)) {
+                    event.setCancelled(true);
+                    player.sendMessage(config.getCanNotDamage());
+                }
             }
+
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
+    public void onTrade(InventoryCloseEvent event){
+        if(event.getInventory().getType() == InventoryType.MERCHANT){
+            Entity entity = (Entity) event.getInventory().getHolder();
+            Player player = (Player) event.getPlayer();
+            PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
+            if (!dataContainer.has(mobOwnerKey, PersistentDataType.BYTE_ARRAY)) {
+                dataContainer.set(mobOwnerKey, PersistentDataType.BYTE_ARRAY, Util.getBytesFromUUID(player.getUniqueId()));
+            }
+        };
     }
 
     private boolean IsAllowed(Entity entity, Player player) {
@@ -74,6 +98,24 @@ public class Listeners implements Listener {
                         return false;
                     }
                 }
+            }
+            return true;
+        }catch(Exception e){
+            Bukkit.getLogger().severe("An error occured when checking if a player can interact with mob.");
+            e.printStackTrace();
+        }
+        return true;
+    }
+    private boolean isOwnerOfMob(Entity entity, Player player){
+        try {
+            PersistentDataContainer dataContainer = entity.getPersistentDataContainer();
+            if (!dataContainer.has(mobOwnerKey, PersistentDataType.BYTE_ARRAY)) return true;
+
+            byte[] playerBytes = Util.getBytesFromUUID(player.getUniqueId());
+            byte[] mobOwnerBytes = dataContainer.get(mobOwnerKey, PersistentDataType.BYTE_ARRAY);
+
+            if (!Arrays.equals(playerBytes, mobOwnerBytes)) {
+                return false;
             }
             return true;
         }catch(Exception e){
