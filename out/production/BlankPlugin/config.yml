@@ -5,3 +5,4 @@ protectionDelay: 900
 messages:
   canNotDamage: "You need to play for an hour before you can damage other players mobs. Use §c/rank§r to check your playtime. Your friend can allow you to damage their mobs with §c/trust (playerName)."
   canNotDamageVillager: "You cannot damage another players villager."
+  canNotPvP: "You need to play for 5 hours before you can PvP other players. They can use /trust to allow you to PvP them."

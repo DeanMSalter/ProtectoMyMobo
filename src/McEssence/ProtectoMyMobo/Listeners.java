@@ -8,6 +8,7 @@ import org.bukkit.block.DoubleChest;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Wolf;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -58,7 +59,25 @@ public class Listeners implements Listener {
                     event.setCancelled(true);
                     player.sendMessage(config.getCanNotDamageVillager());
                 }
-            } else {
+            } else if (event.getEntity().getType() == EntityType.PLAYER) {
+                if (!config.getTrustedPlayers(event.getEntity().getUniqueId()).contains(String.valueOf(player.getUniqueId()))) {
+                    if (!player.hasPermission("ProtectoMyMobo.bypass")) {
+                        event.setCancelled(true);
+                        player.sendMessage(config.getCanNotPvP());
+                    }
+                }
+            } else if(event.getEntity().getType() == EntityType.WOLF){
+                Wolf wolf = (Wolf) event.getEntity();
+                if (wolf.isTamed()){
+                    if (!config.getTrustedPlayers(event.getEntity().getUniqueId()).contains(String.valueOf(player.getUniqueId()))) {
+                        if (!player.hasPermission("ProtectoMyMobo.bypass")) {
+                            event.setCancelled(true);
+                            player.sendMessage(config.getCanNotDamage());
+                        }
+                    }
+                }
+            }
+            else {
                 if (!IsAllowed(event.getEntity(), player)) {
                     event.setCancelled(true);
                     player.sendMessage(config.getCanNotDamage());

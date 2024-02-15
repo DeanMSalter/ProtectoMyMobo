@@ -22,6 +22,10 @@ public class Config{
     public String getCanNotBreak(){
         return main.getConfig().getString("messages.canNotBreak");
     }
+
+    public String getCanNotPvP(){
+        return main.getConfig().getString("messages.canNotPvP");
+    }
     public String getCanNotDamage(){
         return main.getConfig().getString("messages.canNotDamage");
     }
